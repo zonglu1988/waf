@@ -1,3 +1,12 @@
+NEW IN WAF 1.8.18
+-----------------
+* Fixed a regression in exec_cfg() introduced in 1fbac66 #1670
+* Added a new option --clear-failed to unit test builds #1678
+* Added support for scriptlet expressions of the form ${FOO:SRC[0].abspath()}
+* Added define comments to configuration headers: conf.define(.., commment='')
+* Added experimental Wix and Satellizer tools #1666
+* Added backslash replacement to resx processing
+
 NEW IN WAF 1.8.17
 -----------------
 * Added customizations that enable building whole projects from the build folder instead of the variant folder

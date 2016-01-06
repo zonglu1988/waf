@@ -39,5 +39,5 @@ $ cd demos/c/
 $ ./waf configure build
 
 ---------------------------
-Thomas Nagy, 2014-2015 (ita)
+Thomas Nagy, 2014-2016 (ita)
 
