@@ -950,6 +950,7 @@ def funex(c):
 	exec(c, dc)
 	return dc['f']
 
+re_novar = re.compile(r"^(SRC|TGT)\W+.*?$")
 reg_act = re.compile(r"(?P<backslash>\\)|(?P<dollar>\$\$)|(?P<subst>\$\{(?P<var>\w+)(?P<code>.*?)\})", re.M)
 def compile_fun_shell(line):
 	"""
@@ -984,6 +985,10 @@ def compile_fun_shell(line):
 					m = '[a.path_from(cwdx) for a in tsk.inputs]'
 				elif m == 'TGT':
 					m = '[a.path_from(cwdx) for a in tsk.outputs]'
+				elif re_novar.match(m):
+					m = '[tsk.inputs%s]' % m[3:]
+				elif re_novar.match(m):
+					m = '[tsk.outputs%s]' % m[3:]
 				elif m[:3] not in ('tsk', 'gen', 'bld'):
 					dvars.extend([var, meth[1:]])
 					m = '%r' % m
@@ -1039,6 +1044,10 @@ def compile_fun_noshell(line):
 					m = '[a.path_from(cwdx) for a in tsk.inputs]'
 				elif m == 'TGT':
 					m = '[a.path_from(cwdx) for a in tsk.outputs]'
+				elif re_novar.match(m):
+					m = '[tsk.inputs%s]' % m[3:]
+				elif re_novar.match(m):
+					m = '[tsk.outputs%s]' % m[3:]
 				elif m[:3] not in ('tsk', 'gen', 'bld'):
 					dvars.extend([var, m])
 					m = '%r' % m
