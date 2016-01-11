@@ -1041,6 +1041,8 @@ def compile_fun_noshell(line):
 			else: app("lst.extend([a.path_from(cwdx) for a in tsk.outputs])")
 		elif meth:
 			if meth.startswith(':'):
+				if not var in dvars:
+					dvars.append(var)
 				m = meth[1:]
 				if m == 'SRC':
 					m = '[a.path_from(cwdx) for a in tsk.inputs]'
@@ -1051,14 +1053,15 @@ def compile_fun_noshell(line):
 				elif re_novar.match(m):
 					m = '[tsk.outputs%s]' % m[3:]
 				elif m[:3] not in ('tsk', 'gen', 'bld'):
-					dvars.extend([var, m])
+					dvars.append(m)
 					m = '%r' % m
 				app('lst.extend(tsk.colon(%r, %s))' % (var, m))
 			else:
 				app('lst.extend(gen.to_list(%s%s))' % (var, meth))
 		else:
 			app('lst.extend(to_list(env[%r]))' % var)
-			if not var in dvars: dvars.append(var)
+			if not var in dvars:
+				dvars.append(var)
 
 	if extr:
 		if params[-1]:
