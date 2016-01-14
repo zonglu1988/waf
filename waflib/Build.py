@@ -879,7 +879,8 @@ class inst(Task.Task):
 		Predefined method for installing one file with a given name
 		"""
 		destfile = self.get_install_path()
-		self.generator.bld.do_install(self.inputs[0].abspath(), destfile, chmod=self.chmod, tsk=self)
+		if self.inputs:
+			self.generator.bld.do_install(self.inputs[0].abspath(), destfile, chmod=self.chmod, tsk=self)
 
 	def exec_symlink_as(self):
 		"""
